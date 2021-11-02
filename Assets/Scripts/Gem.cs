@@ -29,13 +29,6 @@ public class Gem : MonoBehaviour
 
     public int scoreValue = 10;
 
-    public MatchFinder matchFind;
-
-    private void Awake()
-    {
-        matchFind = FindObjectOfType<MatchFinder>();
-    }
-    
     void Start()
     {
         
@@ -133,18 +126,21 @@ public class Gem : MonoBehaviour
 
         if (otherGem != null)
         {
-            if (otherGem.type == GemType.bomb)
+            if (otherGem.type == GemType.bomb || type == GemType.bomb)
             {
                 for (int x = 0; x < board.width; x++)
                 {
                     for (int y = 0; y < board.height; y++)
                     {
-                        //if (board.allGems[posIndex.x, posIndex.y].type == )
-                        matchFind.currentMatches.Add(board.allGems[posIndex.x, posIndex.y]);
+                        if (otherGem.type == GemType.bomb && type == board.allGems[x, y].type)
+                        {
+                            board.allGems[x, y].isMatched = true;
+                            board.matchFind.currentMatches.Add(board.allGems[x, y]);
+                        }
                     }
                 }
             }
-            else if (!isMatched && !otherGem.isMatched)
+            if (!isMatched && !otherGem.isMatched)
             {
                 otherGem.posIndex = posIndex;
                 posIndex = previousPos;
@@ -158,7 +154,7 @@ public class Gem : MonoBehaviour
             } else
             {
                 board.DestroyMatches();
-            }
+            }            
         }
     }
 }

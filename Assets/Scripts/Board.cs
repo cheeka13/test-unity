@@ -68,7 +68,7 @@ public class Board : MonoBehaviour
             {
                 Vector2 pos = new Vector2(x, y);
                 GameObject bgTile = Instantiate(bgTilePrefab, pos, Quaternion.identity);
-                bgTile.transform.parent = transform; // de gom cac tile lai giong voi parent
+                bgTile.transform.parent = transform;
                 bgTile.name = "BG Tile - " + x + ", " + y;
 
                 if (layoutStore[x,y] != null)
@@ -76,16 +76,16 @@ public class Board : MonoBehaviour
                     SpawnGem(new Vector2Int(x,y), layoutStore[x,y]);
                 } else
                 {
-                int gemToUse = Random.Range(0, gems.Length);
+                    int gemToUse = Random.Range(0, gems.Length);
 
-                int iterations = 0;
-                while (MatchesAt(new Vector2Int(x,y), gems[gemToUse]) && iterations < 100)
-                {
-                    gemToUse = Random.Range(0, gems.Length);
-                    iterations++;
-                }
+                    int iterations = 0;
+                    while (MatchesAt(new Vector2Int(x,y), gems[gemToUse]) && iterations < 100)
+                    {
+                        gemToUse = Random.Range(0, gems.Length);
+                        iterations++;
+                    }
                 
-                SpawnGem(new Vector2Int(x, y), gems[gemToUse]);
+                    SpawnGem(new Vector2Int(x, y), gems[gemToUse]);
                 }
             }
         }
@@ -175,7 +175,7 @@ public class Board : MonoBehaviour
 
     public IEnumerator DecreaseRowCo()
     {
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.1f);
 
         int nullCounter = 0;
 
