@@ -89,6 +89,8 @@ public class Board : MonoBehaviour
                 }
             }
         }
+        // destroy matches if appear when creating board
+        DestroyMatches();
     }
 
     public void SpawnGem(Vector2Int pos, Gem gemToSpawn)
@@ -175,7 +177,7 @@ public class Board : MonoBehaviour
 
     public IEnumerator DecreaseRowCo()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.2f);
 
         int nullCounter = 0;
 

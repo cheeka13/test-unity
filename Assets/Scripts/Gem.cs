@@ -126,19 +126,37 @@ public class Gem : MonoBehaviour
 
         if (otherGem != null)
         {
-            if (otherGem.type == GemType.bomb || type == GemType.bomb)
+            // check if switching with bomb
+            if (otherGem.type == GemType.bomb)
             {
                 for (int x = 0; x < board.width; x++)
                 {
                     for (int y = 0; y < board.height; y++)
                     {
-                        if (otherGem.type == GemType.bomb && type == board.allGems[x, y].type)
+                        if (type == board.allGems[x, y].type)
                         {
                             board.allGems[x, y].isMatched = true;
                             board.matchFind.currentMatches.Add(board.allGems[x, y]);
                         }
                     }
                 }
+                otherGem.isMatched = true;
+                board.matchFind.currentMatches.Add(otherGem);
+            } else if (type == GemType.bomb)
+            {
+                for (int x = 0; x < board.width; x++)
+                {
+                    for (int y = 0; y < board.height; y++)
+                    {
+                        if (otherGem.type == board.allGems[x, y].type)
+                        {
+                            board.allGems[x, y].isMatched = true;
+                            board.matchFind.currentMatches.Add(board.allGems[x, y]);
+                        }
+                    }
+                }
+                isMatched = true;
+                board.matchFind.currentMatches.Add(this);
             }
             if (!isMatched && !otherGem.isMatched)
             {

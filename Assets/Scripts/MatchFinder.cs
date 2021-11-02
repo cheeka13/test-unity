@@ -10,6 +10,8 @@ public class MatchFinder : MonoBehaviour
 
     public List<Gem> specialMatches = new List<Gem>();
 
+    public List<Gem> fourthMatches = new List<Gem>();
+
     private void Awake()
     {
         board = FindObjectOfType<Board>();
@@ -42,11 +44,11 @@ public class MatchFinder : MonoBehaviour
                                 currentMatches.Add(leftGem);
                                 currentMatches.Add(rightGem);
 
-                                if (x > 1 && x < board.width -2)
+                                if (x > 1 && x < board.width - 2)
                                 {
                                     Gem secondLeft = board.allGems[x-2, y];
                                     Gem secondRight = board.allGems[x+2, y];
-                                    if (secondLeft.type == currentGem.type && secondRight.type == currentGem.type)
+                                    if (secondLeft != null && secondRight != null && secondLeft.type == currentGem.type && secondRight.type == currentGem.type)
                                     {
                                         secondLeft.isMatched = true;
                                         secondRight.isMatched = true;
