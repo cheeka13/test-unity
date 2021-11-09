@@ -21,6 +21,9 @@ public class Board : MonoBehaviour
     public BoardState currentState = BoardState.move;
 
     public Gem bomb;
+
+    public Gem stone;
+
     public float bombChance = 2f;
 
     [HideInInspector]
@@ -164,11 +167,19 @@ public class Board : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < matchFind.specialMatches.Count; i++)
+        for (int i = 0; i < matchFind.fiveGemMatches.Count; i++)
         {
-            if (matchFind.specialMatches[i] != null)
+            if (matchFind.fiveGemMatches[i] != null)
             {
-                SpawnGem(new Vector2Int(matchFind.specialMatches[i].posIndex.x, matchFind.specialMatches[i].posIndex.y), bomb);
+                SpawnGem(new Vector2Int(matchFind.fiveGemMatches[i].posIndex.x, matchFind.fiveGemMatches[i].posIndex.y), bomb);
+            }
+        }
+
+        for (int i = 0; i < matchFind.fourGemMatches.Count; i++)
+        {
+            if (matchFind.fourGemMatches[i] != null)
+            {
+                SpawnGem(new Vector2Int(matchFind.fourGemMatches[i].posIndex.x, matchFind.fourGemMatches[i].posIndex.y), bomb);
             }
         }
 
