@@ -113,16 +113,16 @@ public class Gem : MonoBehaviour
         board.allGems[posIndex.x, posIndex.y] = this;
         board.allGems[otherGem.posIndex.x, otherGem.posIndex.y] = otherGem;
 
-        StartCoroutine(CheckMoveCo());
+        StartCoroutine(CheckMoveCo(posIndex.x, posIndex.y));
     }
 
-    public IEnumerator CheckMoveCo()
+    public IEnumerator CheckMoveCo(int xIndex,int yIndex)
     {
         board.currentState = Board.BoardState.wait;
 
         yield return new WaitForSeconds(.5f);
 
-        board.matchFind.FindAllMatches();
+        board.matchFind.FindAllMatches(xIndex, yIndex);
 
         if (otherGem != null)
         {

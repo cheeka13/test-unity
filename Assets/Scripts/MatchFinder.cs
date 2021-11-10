@@ -12,6 +12,8 @@ public class MatchFinder : MonoBehaviour
 
     public List<Gem> fourGemMatches = new List<Gem>();
 
+    public List<Gem> letterGemMatches = new List<Gem>();
+
     public List<int> horizontalPieces = new List<int>();
 
     public List<int> verticalPieces = new List<int>();
@@ -20,178 +22,75 @@ public class MatchFinder : MonoBehaviour
     {
         board = FindObjectOfType<Board>();
     }
-
-    public void FindAllMatches()
+    
+    public void FindAllMatches(int xIndex = -1, int yIndex = -1)
     {
         currentMatches.Clear();
 
-        for (int x = 0; x < board.width; x++)
+        for (int y = 0; y < board.height; y++)
         {
-            for (int y = 0; y < board.height; y++)
+            Gem tempGem = null;
+
+            for (int x = 0; x < board.width; x++)
             {
                 Gem currentGem = board.allGems[x, y];
-                if (currentGem != null)
+                if (tempGem == null || (currentGem != null && currentGem.type != tempGem.type))
                 {
-                    if (x > 0 && x < board.width - 1)
-                    {                    
-                        horizontalPieces.Add(x);
-                        for (int dir = 0; dir <= 1; dir++)
+                    tempGem = currentGem;
+                    horizontalPieces.Add(x);
+                    for (int dir = 0; dir <= 1; dir++)
+                    {
+                        for (int xOffset = 1; xOffset <= board.width; xOffset++)
                         {
-                            for (int xOffset = 1; xOffset <= board.width; xOffset++)
+                            int newX;
+
+                            if (dir == 0)
                             {
-                                int newX;
-
-                                if (dir == 0)
-                                {
-                                    newX = x - xOffset;
-                                } else
-                                {
-                                    newX = x + xOffset;
-                                }
-                                
-                                if (newX < 0 || newX >= board.width)
-                                {
-                                    break;
-                                }
-
-                                if (board.allGems[newX, y] != null && board.allGems[newX, y].type == currentGem.type)
-                                {
-                                    horizontalPieces.Add(newX);
-                                } else
-                                {
-                                    break;
-                                }
+                                newX = x - xOffset;
                             }
+                            else
+                            {
+                                newX = x + xOffset;
+                            }
+
+                            if (newX < 0 || newX >= board.width)
+                            {
+                                break;
+                            }
+
+                            if (board.allGems[newX, y] != null && board.allGems[newX, y].type == currentGem.type)
+                            {
+                                horizontalPieces.Add(newX);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                    if (horizontalPieces.Count >= 3)
+                    {
+                        for (int i = 0; i < horizontalPieces.Count; i++)
+                        {
+                            currentMatches.Add(board.allGems[horizontalPieces[i], y]);
+                            board.allGems[horizontalPieces[i], y].isMatched = true;
                         }
 
                         if (horizontalPieces.Count >= 5)
                         {
-                            if (!currentGem.isMatched)
-                            {
-                                for (int i = 0; i < horizontalPieces.Count; i++)
-                                {
-                                    currentMatches.Add(board.allGems[horizontalPieces[i], y]);
-                                    board.allGems[horizontalPieces[i], y].isMatched = true;
-
-                                    fiveGemMatches.Add(board.allGems[horizontalPieces[2], y]);
-                                }
-                            }
-                        } else
-                        {
-                            if (horizontalPieces.Count >= 3)
-                            {
-                                for (int i = 0; i < horizontalPieces.Count; i++)
-                                {
-                                    currentMatches.Add(board.allGems[horizontalPieces[i], y]);
-                                    board.allGems[horizontalPieces[i], y].isMatched = true;
-                                }
-                            }
-                            if (horizontalPieces.Count >= 3)
-                            {
-                                for (int i = 0; i < horizontalPieces.Count; i++)
-                                {
-                                    for (int dir = 0; dir <= 1; dir++)
-                                    {
-                                        for (int yOffset = 1; yOffset <= board.height; yOffset++)
-                                        {
-                                            int newY;
-
-                                            if (dir == 0)
-                                            {
-                                                newY = y - yOffset;
-                                            } else
-                                            {
-                                                newY = y + yOffset;
-                                            }
-
-                                            if (newY < 0 || newY >= board.height)
-                                            {
-                                                break;
-                                            }
-
-                                            if (board.allGems[horizontalPieces[i], newY] != null && board.allGems[horizontalPieces[i], newY].type == currentGem.type)
-                                            {
-                                                verticalPieces.Add(newY);
-                                            } else
-                                            {
-                                                break;
-                                            }
-
-                                            if (verticalPieces.Count >= 2)
-                                            {
-                                                for (int j = 0; j < verticalPieces.Count; j++)
-                                                {
-                                                    currentMatches.Add(board.allGems[horizontalPieces[i], verticalPieces[j]]);
-                                                    board.allGems[horizontalPieces[i], verticalPieces[j]].isMatched = true;
-                                                }
-                                            }
-                                            verticalPieces.Clear();
-                                        }
-                                    }
-                                }
-                            }
+                            fiveGemMatches.Add(board.allGems[xIndex, yIndex]);
                         }
 
-                            /*if (horizontalPieces.Count == 4)
-                            {
-                                fourGemMatches.Add(currentGem);
-                            }
-
-                            if (horizontalPieces.Count >= 5)
-                            {
-                                fiveGemMatches.Add(board.allGems[horizontalPieces[2], y]);
-                            }*/
-                        horizontalPieces.Clear();
+                        if (horizontalPieces.Count == 4)
+                        {
+                            fourGemMatches.Add(board.allGems[xIndex, yIndex]);
+                        }
                     }
-                    
-                    if (y > 0 && y < board.height - 1)
-                    {
-                        verticalPieces.Add(y);
-                        for (int dir = 0; dir <= 1; dir++)
-                        {
-                            for (int yOffset = 1; yOffset <= board.height; yOffset++)
-                            {
-                                int newY;
-
-                                if (dir == 0)
-                                {
-                                    newY = y - yOffset;
-                                } else
-                                {
-                                    newY = y + yOffset;
-                                }
-                                
-                                if (newY < 0 || newY >= board.height)
-                                {
-                                    break;
-                                }
-
-                                if (board.allGems[x, newY] != null && board.allGems[x, newY].type == currentGem.type)
-                                {
-                                    verticalPieces.Add(newY);
-                                } else
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                        if (verticalPieces.Count >= 3 && !currentGem.isMatched)
-                        {
-                            for (int i = 0; i < verticalPieces.Count; i++)
-                            {
-                                currentMatches.Add(board.allGems[x, verticalPieces[i]]);
-                                board.allGems[x, verticalPieces[i]].isMatched = true;
-                            }
-
-                            if (verticalPieces.Count >= 5)
-                            {
-                                fiveGemMatches.Add(board.allGems[x, verticalPieces[2]]);
-                            }
-                        }
-                        verticalPieces.Clear();
-                    }
+                    horizontalPieces.Clear();
                 }
             }
+            tempGem = null;
         }
 
         if (currentMatches.Count > 0)

@@ -175,6 +175,14 @@ public class Board : MonoBehaviour
             }
         }
 
+        for (int i = 0; i < matchFind.letterGemMatches.Count; i++)
+        {
+            if (matchFind.letterGemMatches[i] != null)
+            {
+                SpawnGem(new Vector2Int(matchFind.letterGemMatches[i].posIndex.x, matchFind.letterGemMatches[i].posIndex.y), bomb);
+            }
+        }
+
         for (int i = 0; i < matchFind.fourGemMatches.Count; i++)
         {
             if (matchFind.fourGemMatches[i] != null)
