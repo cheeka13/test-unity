@@ -17,7 +17,7 @@ public class Gem : MonoBehaviour
 
     private Gem otherGem;
 
-    public enum GemType { blue, green, red, yellow, purple, bomb, stone };
+    public enum GemType { blue, green, red, yellow, purple, bomb, stone, tMatch };
     public GemType type;
 
     public bool isMatched;
@@ -127,39 +127,53 @@ public class Gem : MonoBehaviour
         if (otherGem != null)
         {
             // check if switching with bomb
-            if (otherGem.type == GemType.bomb)
+            if (otherGem.type == GemType.bomb || type == GemType.bomb)
             {
-                for (int x = 0; x < board.width; x++)
+                if (otherGem.type == type)
                 {
-                    for (int y = 0; y < board.height; y++)
+                    for (int x = 0; x < board.width; x++)
                     {
-                        if (type == board.allGems[x, y].type)
+                        for (int y = 0; y < board.height; y++)
                         {
                             board.allGems[x, y].isMatched = true;
                             board.matchFind.currentMatches.Add(board.allGems[x, y]);
                         }
                     }
-                }
-                otherGem.isMatched = true;
-                board.matchFind.currentMatches.Add(otherGem);
-
-                board.DestroyMatches();
-            } else if (type == GemType.bomb)
-            {
-                for (int x = 0; x < board.width; x++)
+                } else
                 {
-                    for (int y = 0; y < board.height; y++)
+                    GemType typeToExplode;
+
+                    if (otherGem.type == GemType.bomb)
                     {
-                        if (otherGem.type == board.allGems[x, y].type)
+                        typeToExplode = type;
+                    } else
+                    {
+                        typeToExplode = otherGem.type;
+                    }
+
+                    for (int x = 0; x < board.width; x++)
+                    {
+                        for (int y = 0; y < board.height; y++)
                         {
-                            board.allGems[x, y].isMatched = true;
-                            board.matchFind.currentMatches.Add(board.allGems[x, y]);
+                            if (board.allGems[x, y].type == typeToExplode)
+                            {
+                                board.allGems[x, y].isMatched = true;
+                                board.matchFind.currentMatches.Add(board.allGems[x, y]);
+                            }
                         }
                     }
-                }
-                isMatched = true;
-                board.matchFind.currentMatches.Add(this);
 
+                    if (otherGem.type == GemType.bomb)
+                    {
+                        otherGem.isMatched = true;
+                        board.matchFind.currentMatches.Add(otherGem);
+                    } else
+                    {
+                        isMatched = true;
+                        board.matchFind.currentMatches.Add(this);
+                    }
+                }
+                
                 board.DestroyMatches();
             } else
             {

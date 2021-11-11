@@ -278,8 +278,8 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 8478088967220415708, guid: 58c9a6a853405f04a84b07bb55ae9c3b, type: 3}
+    - {fileID: 8478088967220415708, guid: 58c9a6a853405f04a84b07bb55ae9c3b, type: 3}
     - {fileID: 0}
   - gemsInRow:
     - {fileID: 5987112801351056701, guid: b6f2c3b1f28fd1940ad7d5388a25b291, type: 3}

@@ -22,7 +22,7 @@ public class Board : MonoBehaviour
 
     public Gem bomb;
 
-    public Gem stone;
+    public Gem tMatch;
 
     public float bombChance = 2f;
 
@@ -179,7 +179,7 @@ public class Board : MonoBehaviour
         {
             if (matchFind.letterGemMatches[i] != null)
             {
-                SpawnGem(new Vector2Int(matchFind.letterGemMatches[i].posIndex.x, matchFind.letterGemMatches[i].posIndex.y), bomb);
+                SpawnGem(new Vector2Int(matchFind.letterGemMatches[i].posIndex.x, matchFind.letterGemMatches[i].posIndex.y), tMatch);
             }
         }
 

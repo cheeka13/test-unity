@@ -27,6 +27,7 @@ public class MatchFinder : MonoBehaviour
     {
         currentMatches.Clear();
 
+        // check horizontally
         for (int y = 0; y < board.height; y++)
         {
             Gem tempGem = null;
@@ -154,6 +155,7 @@ public class MatchFinder : MonoBehaviour
             }
         }
 
+        // check vertically
         for (int x = 0; x < board.width; x++)
         {
             Gem tempGem = null;
