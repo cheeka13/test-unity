@@ -131,8 +131,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4174607618223021066, guid: 6c4d98d00330b824a9d37557568f6105, type: 3}
+      propertyPath: Pan2D
+      value: -0.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 4174607618223021066, guid: 6c4d98d00330b824a9d37557568f6105, type: 3}
+      propertyPath: m_Pitch
+      value: -2.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 4174607618223021066, guid: 6c4d98d00330b824a9d37557568f6105, type: 3}
+      propertyPath: Priority
+      value: 49
+      objectReference: {fileID: 0}
+    - target: {fileID: 4174607618223021066, guid: 6c4d98d00330b824a9d37557568f6105, type: 3}
       propertyPath: m_Volume
-      value: 0.211
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4648454958218369221, guid: 6c4d98d00330b824a9d37557568f6105, type: 3}
       propertyPath: m_Name
@@ -270,16 +282,16 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
   - gemsInRow:
+    - {fileID: 5987112801351056701, guid: b6f2c3b1f28fd1940ad7d5388a25b291, type: 3}
+    - {fileID: 5987112801351056701, guid: b6f2c3b1f28fd1940ad7d5388a25b291, type: 3}
+    - {fileID: 5987112801351056701, guid: b6f2c3b1f28fd1940ad7d5388a25b291, type: 3}
+    - {fileID: 5987112801351056701, guid: b6f2c3b1f28fd1940ad7d5388a25b291, type: 3}
     - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 760004335491405731, guid: 001acb9ecf77baa4295f97c2adefbe19, type: 3}
     - {fileID: 0}
     - {fileID: 0}
   - gemsInRow:
     - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 5987112801351056701, guid: b6f2c3b1f28fd1940ad7d5388a25b291, type: 3}
     - {fileID: 0}
     - {fileID: 760004335491405731, guid: 001acb9ecf77baa4295f97c2adefbe19, type: 3}
     - {fileID: 0}
@@ -287,7 +299,7 @@ MonoBehaviour:
     - {fileID: 760004335491405731, guid: 001acb9ecf77baa4295f97c2adefbe19, type: 3}
   - gemsInRow:
     - {fileID: 0}
-    - {fileID: 6241804051616396005, guid: 9652d11e1c598664e97dbcb9b451e415, type: 3}
+    - {fileID: 5987112801351056701, guid: b6f2c3b1f28fd1940ad7d5388a25b291, type: 3}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
@@ -811,7 +823,6 @@ MonoBehaviour:
   letterGemMatches: []
   horizontalPieces: 
   verticalPieces: 
-  tempGem: {fileID: 0}
 --- !u!1 &1940814123
 GameObject:
   m_ObjectHideFlags: 0

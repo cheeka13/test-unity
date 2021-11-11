@@ -40,29 +40,27 @@ public class MatchFinder : MonoBehaviour
                     horizontalPieces.Add(x);
                     for (int dir = 0; dir <= 1; dir++)
                     {
-                        for (int xOffset = 1; xOffset <= board.width; xOffset++)
+                        for (int xOffset = 1; xOffset < board.width; xOffset++)
                         {
                             int newX;
 
                             if (dir == 0)
                             {
                                 newX = x - xOffset;
-                            }
-                            else
+                            } else
                             {
                                 newX = x + xOffset;
                             }
 
-                            if (newX < 0 || newX >= board.width)
+                            if (newX < 0 || newX > board.width -1)
                             {
                                 break;
                             }
 
-                            if (board.allGems[newX, y] != null && board.allGems[newX, y].type == currentGem.type)
+                            if (board.allGems[newX, y] != null && board.allGems[newX, y].type == tempGem.type)
                             {
                                 horizontalPieces.Add(newX);
-                            }
-                            else
+                            } else
                             {
                                 break;
                             }
@@ -79,18 +77,208 @@ public class MatchFinder : MonoBehaviour
 
                         if (horizontalPieces.Count >= 5)
                         {
-                            fiveGemMatches.Add(board.allGems[xIndex, yIndex]);
-                        }
-
-                        if (horizontalPieces.Count == 4)
+                            if (xIndex == -1)
+                            {
+                                fiveGemMatches.Add(board.allGems[horizontalPieces[2], y]);
+                            } else
+                            {
+                                fiveGemMatches.Add(board.allGems[xIndex, yIndex]);
+                            }
+                        } else
                         {
-                            fourGemMatches.Add(board.allGems[xIndex, yIndex]);
+                            bool isLetterAppeared = false;
+
+                            for (int i = 0; i < horizontalPieces.Count; i++)
+                            {
+                                for (int dir = 0; dir <= 1; dir++)
+                                {
+                                    for (int yOffset = 1; yOffset < board.height; yOffset++)
+                                    {
+                                        int newY;
+
+                                        if (dir == 0)
+                                        {
+                                            newY = y - yOffset;
+                                        } else
+                                        {
+                                            newY = y + yOffset;
+                                        }
+
+                                        if (newY < 0 || newY > board.height -1)
+                                        {
+                                            break;
+                                        }
+
+                                        if (board.allGems[horizontalPieces[i], newY] != null && board.allGems[horizontalPieces[i], newY].type == tempGem.type)
+                                        {
+                                            verticalPieces.Add(newY);
+                                        } else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                if (verticalPieces.Count > 1)
+                                {
+                                    for (int j = 0; j < verticalPieces.Count; j++)
+                                    {
+                                        currentMatches.Add(board.allGems[horizontalPieces[i], verticalPieces[j]]);
+                                        board.allGems[horizontalPieces[i], verticalPieces[j]].isMatched = true;
+                                    }
+
+                                    if (!letterGemMatches.Contains(board.allGems[horizontalPieces[i], y]))
+                                    {
+                                        letterGemMatches.Add(board.allGems[horizontalPieces[i], y]);
+                                    }
+                                    isLetterAppeared = true;
+                                }
+
+                                verticalPieces.Clear();
+                            }
+
+                            if (!isLetterAppeared && horizontalPieces.Count == 4)
+                            {
+                                if (xIndex == -1)
+                                {
+                                    fourGemMatches.Add(board.allGems[horizontalPieces[1], y]);
+                                } else
+                                {
+                                    fourGemMatches.Add(board.allGems[xIndex, yIndex]);
+                                }
+                            }
                         }
                     }
                     horizontalPieces.Clear();
                 }
             }
-            tempGem = null;
+        }
+
+        for (int x = 0; x < board.width; x++)
+        {
+            Gem tempGem = null;
+
+            for (int y = 0; y < board.height; y++)
+            {
+                Gem currentGem = board.allGems[x, y];
+                if (tempGem == null || (currentGem != null && currentGem.type != tempGem.type))
+                {
+                    tempGem = currentGem;
+                    verticalPieces.Add(y);
+                    for (int dir = 0; dir <= 1; dir++)
+                    {
+                        for (int yOffset = 1; yOffset < board.height; yOffset++)
+                        {
+                            int newY;
+
+                            if (dir == 0)
+                            {
+                                newY = y - yOffset;
+                            } else
+                            {
+                                newY = y + yOffset;
+                            }
+
+                            if (newY < 0 || newY > board.height - 1)
+                            {
+                                break;
+                            }
+
+                            if (board.allGems[x, newY] != null && board.allGems[x, newY].type == tempGem.type)
+                            {
+                                verticalPieces.Add(newY);
+                            } else
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                    if (verticalPieces.Count >= 3)
+                    {
+                        for (int i = 0; i < verticalPieces.Count; i++)
+                        {
+                            currentMatches.Add(board.allGems[x, verticalPieces[i]]);
+                            board.allGems[x, verticalPieces[i]].isMatched = true;
+                        }
+
+                        if (verticalPieces.Count >= 5)
+                        {
+                            if (xIndex == -1)
+                            {
+                                fiveGemMatches.Add(board.allGems[x, verticalPieces[2]]);
+                            } else
+                            {
+                                fiveGemMatches.Add(board.allGems[xIndex, yIndex]);
+                            }
+                        } else
+                        {
+                            bool isLetterAppeared = false;
+
+                            for (int i = 0; i < verticalPieces.Count; i++)
+                            {
+                                for (int dir = 0; dir <= 1; dir++)
+                                {
+                                    for (int xOffset = 1; xOffset < board.width; xOffset++)
+                                    {
+                                        int newX;
+
+                                        if (dir == 0)
+                                        {
+                                            newX = x - xOffset;
+                                        } else
+                                        {
+                                            newX = x + xOffset;
+                                        }
+
+                                        if (newX < 0 || newX > board.width - 1)
+                                        {
+                                            break;
+                                        }
+
+                                        if (board.allGems[newX, verticalPieces[i]] != null && board.allGems[newX, verticalPieces[i]].type == tempGem.type)
+                                        {
+                                            horizontalPieces.Add(newX);
+                                        } else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                if (horizontalPieces.Count > 1)
+                                {
+                                    for (int j = 0; j < horizontalPieces.Count; j++)
+                                    {
+                                        currentMatches.Add(board.allGems[horizontalPieces[j], verticalPieces[i]]);
+                                        board.allGems[horizontalPieces[j], verticalPieces[i]].isMatched = true;
+                                    }
+
+                                    if (!letterGemMatches.Contains(board.allGems[x, verticalPieces[i]]))
+                                    {
+                                        letterGemMatches.Add(board.allGems[x, verticalPieces[i]]);
+                                    }
+                                    isLetterAppeared = true;
+                                }
+
+                                horizontalPieces.Clear();
+                            }
+
+                            if (!isLetterAppeared && verticalPieces.Count == 4)
+                            {
+                                if (xIndex == -1)
+                                {
+                                    fourGemMatches.Add(board.allGems[x, verticalPieces[1]]);
+                                } else
+                                {
+                                    fourGemMatches.Add(board.allGems[xIndex, yIndex]);
+                                }
+                            }
+                        }
+                    }
+                    verticalPieces.Clear();
+                }
+            }
         }
 
         if (currentMatches.Count > 0)

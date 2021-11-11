@@ -122,7 +122,7 @@ public class Gem : MonoBehaviour
 
         yield return new WaitForSeconds(.5f);
 
-        board.matchFind.FindAllMatches(xIndex, yIndex);
+        //board.matchFind.FindAllMatches(xIndex, yIndex);
 
         if (otherGem != null)
         {
@@ -142,6 +142,8 @@ public class Gem : MonoBehaviour
                 }
                 otherGem.isMatched = true;
                 board.matchFind.currentMatches.Add(otherGem);
+
+                board.DestroyMatches();
             } else if (type == GemType.bomb)
             {
                 for (int x = 0; x < board.width; x++)
@@ -157,21 +159,27 @@ public class Gem : MonoBehaviour
                 }
                 isMatched = true;
                 board.matchFind.currentMatches.Add(this);
-            }
-            if (!isMatched && !otherGem.isMatched)
-            {
-                otherGem.posIndex = posIndex;
-                posIndex = previousPos;
 
-                board.allGems[posIndex.x, posIndex.y] = this;
-                board.allGems[otherGem.posIndex.x, otherGem.posIndex.y] = otherGem;
-
-                yield return new WaitForSeconds(.5f);
-
-                board.currentState = Board.BoardState.move;
+                board.DestroyMatches();
             } else
             {
-                board.DestroyMatches();
+                board.matchFind.FindAllMatches(xIndex, yIndex);
+
+                if (!isMatched && !otherGem.isMatched)
+                {
+                    otherGem.posIndex = posIndex;
+                    posIndex = previousPos;
+
+                    board.allGems[posIndex.x, posIndex.y] = this;
+                    board.allGems[otherGem.posIndex.x, otherGem.posIndex.y] = otherGem;
+
+                    yield return new WaitForSeconds(.5f);
+
+                    board.currentState = Board.BoardState.move;
+                } else
+                {
+                    board.DestroyMatches();
+                }
             }            
         }
     }
