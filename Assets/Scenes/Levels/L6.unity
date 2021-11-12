@@ -227,7 +227,7 @@ MonoBehaviour:
   matchFind: {fileID: 0}
   currentState: 1
   bomb: {fileID: 8478088967220415708, guid: 58c9a6a853405f04a84b07bb55ae9c3b, type: 3}
-  stone: {fileID: 0}
+  tMatch: {fileID: 4830725230531361703, guid: 245f9e571ff9ff34b8e9cac6c54231ba, type: 3}
   bombChance: 0
   roundMan: {fileID: 0}
   bonusAmount: 0.5
@@ -808,6 +808,7 @@ MonoBehaviour:
   currentMatches: []
   fiveGemMatches: []
   fourGemMatches: []
+  letterGemMatches: []
   horizontalPieces: 
   verticalPieces: 
 --- !u!1 &1940814123
